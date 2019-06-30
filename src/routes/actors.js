@@ -67,4 +67,16 @@ router.delete('/:actorId', function (req, res, next) {
   .catch(next);
 });
 
+router.get('/:actorId/info', function (req, res, next) {
+    Actor
+    .findAll( { where: { id: req.params.actorId }, include: [ { model: Cast, include: [Movie] }]})
+    .then(fullInfo => {
+      if (fullInfo.length === 1)
+          res.send(fullInfo[0]);
+      else
+          res.sendStatus(404);
+  })
+    .catch(next);
+});
+
 export default router;
