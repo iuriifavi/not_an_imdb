@@ -1,7 +1,7 @@
 "use strict";
 
 const Router = ReactRouterDOM.BrowserRouter;
-const { Route, Link, Redirect } = ReactRouterDOM;
+const { Route, Link, Redirect, Switch } = ReactRouterDOM;
 
 function Home() {
   return (
@@ -23,10 +23,13 @@ function Actors() {
   return (
     <div>
       <h3>Actors</h3>
-      <Route
-        path="/actors/"
-        render={props => <PageView {...props} {...baseProps} />}
-      />
+      <Switch>
+        <Route path="/actors/:actorId/info" exact component={ActorPreview} />
+        <Route path="/actors/:actorId/edit" exact component={ActorEdit} />
+        <Route path="/actors/"
+          render={props => <PageView {...props} {...baseProps} />}
+        />
+      </Switch>
     </div>
   );
 }
@@ -42,10 +45,13 @@ function Movies() {
   return (
     <div>
       <h3>Movies</h3>
-      <Route
-        path="/movies/"
-        render={props => <PageView {...props} {...baseProps} />}
-      />
+      <Switch>
+        <Route path="/movies/:actorId/info" exact component={MoviePreview} />
+        <Route path="/movies/:actorId/edit" exact component={MovieEdit} />
+        <Route path="/movies/"
+          render={props => <PageView {...props} {...baseProps} />}
+        />
+      </Switch>
     </div>
   );
 }
@@ -111,7 +117,7 @@ class PageView extends React.Component {
 
   fetchData(props) {
     const self = this;
-    const { match } = props || this.props;
+    const { match } = props;
     const page = (match && match.params && match.params.page) || 0;
 
     fetch(
@@ -125,7 +131,7 @@ class PageView extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchData();
+    this.fetchData(this.props);
   }
 
   componentWillReceiveProps(props) {
@@ -160,6 +166,76 @@ class PageView extends React.Component {
       </div>
     );
   }
+}
+
+class ActorPreview extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { actor: null }
+  }
+
+  componentDidMount() {
+    this.fetchData(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.fetchData(props)
+  }
+
+  fetchData(props) {
+    const self = this;
+    const { match } = props;
+    const actorId = match.params.actorId;
+
+    fetch(
+      `/api/actor/${actorId}/info`
+    )
+      .then(responce => responce.json())
+      .then( actor => {
+        self.setState({ actor });
+      });
+  }
+
+  render() { return ( <h1>Actor Info {JSON.stringify(this.state.actor)}</h1> ); }
+}
+
+class MoviePreview extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { actor: null }
+  }
+
+  componentDidMount() {
+    this.fetchData(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.fetchData(props)
+  }
+
+  fetchData(props) {
+    const self = this;
+    const { match } = props;
+    const actorId = match.params.actorId;
+
+    fetch(
+      `/api/movie/${actorId}/info`
+    )
+      .then(responce => responce.json())
+      .then( actor => {
+        self.setState({ actor });
+      });
+  }
+
+  render() { return ( <h1>Movie Info {JSON.stringify(this.state.actor)}</h1> ); }
+}
+
+class ActorEdit extends React.Component {
+  render() { return ( <h1>Actor Edit</h1> ); }
+}
+
+class MovieEdit extends React.Component {
+  render() { return ( <h1>Movie Edit</h1> ); }
 }
 
 /**
