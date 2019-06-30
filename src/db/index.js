@@ -11,7 +11,7 @@ import Cast from './cast-model';
  * all values hardcoded for simpliifcation
  */
 const sequelize = new Sequelize("hubhaus", "root", "hubhaus", {
-    host: "localhost",
+    host: "db",
     dialect: "mysql",
     pool: {
         max: 5,
