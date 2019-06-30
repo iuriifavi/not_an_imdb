@@ -12,16 +12,13 @@ services:
       MYSQL_DATABASE: hubhaus
   
   web:
-    image: node:12-alpine
+    image: node:12
     depends_on: [ 'db']
     volumes: 
     - .:/home/node/web
     working_dir: /home/node/web
-    command: npm start
+    command: bash -c "npm install && npm start"
     ports:
     - '8080:8080'
     environment:
       PORT: 8080
-
-volumes:
-  node_modules:  
