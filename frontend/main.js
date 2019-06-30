@@ -2,6 +2,7 @@
 
 const Router = ReactRouterDOM.BrowserRouter;
 const { Route, Link, Redirect, Switch } = ReactRouterDOM;
+const { Form, Table } = ReactBootstrap;
 
 function Home() {
   return (
@@ -26,7 +27,8 @@ function Actors() {
       <Switch>
         <Route path="/actors/:actorId/info" exact component={ActorPreview} />
         <Route path="/actors/:actorId/edit" exact component={ActorEdit} />
-        <Route path="/actors/"
+        <Route
+          path="/actors/"
           render={props => <PageView {...props} {...baseProps} />}
         />
       </Switch>
@@ -46,9 +48,10 @@ function Movies() {
     <div>
       <h3>Movies</h3>
       <Switch>
-        <Route path="/movies/:actorId/info" exact component={MoviePreview} />
-        <Route path="/movies/:actorId/edit" exact component={MovieEdit} />
-        <Route path="/movies/"
+        <Route path="/movies/:movieId/info" exact component={MoviePreview} />
+        <Route path="/movies/:movieId/edit" exact component={MovieEdit} />
+        <Route
+          path="/movies/"
           render={props => <PageView {...props} {...baseProps} />}
         />
       </Switch>
@@ -116,17 +119,17 @@ class PageView extends React.Component {
   }
 
   fetchData(props) {
-    const self = this;
     const { match } = props;
     const page = (match && match.params && match.params.page) || 0;
 
     fetch(
-      `${this.props.fetchUrl}?offset=${page * ItemsPerPage}&limit=${ItemsPerPage}`
+      `${this.props.fetchUrl}?offset=${page *
+        ItemsPerPage}&limit=${ItemsPerPage}`
     )
       .then(responce => responce.json())
       .then(items => {
         const hasNext = items.length === ItemsPerPage;
-        self.setState({ items, hasNext, page });
+        this.setState({ items, hasNext, page });
       });
   }
 
@@ -135,7 +138,7 @@ class PageView extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.fetchData(props)
+    this.fetchData(props);
   }
 
   render() {
@@ -154,7 +157,7 @@ class PageView extends React.Component {
     return (
       <div>
         <table className="table">
-          <Header></Header>
+          <Header />
           <tbody>
             {this.state.items.map(item => (
               <RowView data={item} key={item.id} />
@@ -171,7 +174,7 @@ class PageView extends React.Component {
 class ActorPreview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { actor: null }
+    this.state = { actor: null };
   }
 
   componentDidMount() {
@@ -179,30 +182,63 @@ class ActorPreview extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.fetchData(props)
+    this.fetchData(props);
   }
 
   fetchData(props) {
-    const self = this;
     const { match } = props;
     const actorId = match.params.actorId;
 
-    fetch(
-      `/api/actor/${actorId}/info`
-    )
+    fetch(`/api/actor/${actorId}/info`)
       .then(responce => responce.json())
-      .then( actor => {
-        self.setState({ actor });
+      .then(actor => {
+        this.setState({ actor });
       });
   }
 
-  render() { return ( <h1>Actor Info {JSON.stringify(this.state.actor)}</h1> ); }
+  render() {
+    const { actor } = this.state;
+    const edit = actor !== null && (
+      <Form>
+        <Form.Group>
+          <Form.Label>First Name: </Form.Label>
+          <Form.Input>{actor.first_name}</Form.Input>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Last Name: </Form.Label>
+          <Form.Input>{actor.last_name}</Form.Input>
+        </Form.Group>
+      </Form>
+    );
+
+    const preview = actor !== null && (
+      <Form>
+        <Form.Group>
+          <Form.Label>First Name: </Form.Label>
+          <Form.Label>{actor.first_name}</Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Last Name: </Form.Label>
+          <Form.Label>{actor.last_name}</Form.Label>
+        </Form.Group>
+      </Form>
+    );
+
+    return (
+      <div>
+        <h1>
+          Actor Info <Link to="../edit">Edit</Link>
+        </h1>
+        {preview}
+      </div>
+    );
+  }
 }
 
 class MoviePreview extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { actor: null }
+    this.state = { movie: null };
   }
 
   componentDidMount() {
@@ -210,32 +246,56 @@ class MoviePreview extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    this.fetchData(props)
+    this.fetchData(props);
   }
 
   fetchData(props) {
-    const self = this;
     const { match } = props;
-    const actorId = match.params.actorId;
+    const movieId = match.params.movieId;
 
-    fetch(
-      `/api/movie/${actorId}/info`
-    )
+    fetch(`/api/movie/${movieId}/info`)
       .then(responce => responce.json())
-      .then( actor => {
-        self.setState({ actor });
+      .then(movie => {
+        this.setState({ movie });
       });
   }
 
-  render() { return ( <h1>Movie Info {JSON.stringify(this.state.actor)}</h1> ); }
+  render() {
+    const { movie } = this.state
+    const preview = movie !== null && (
+      <Form>
+        <Form.Group>
+          <Form.Label>Title: </Form.Label>
+          <Form.Label>{movie.title}</Form.Label>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Release Date: </Form.Label>
+          <Form.Label>{movie.release_date}</Form.Label>
+        </Form.Group>
+      </Form>
+    );
+
+    return (
+      <div>
+        <h1>
+          Movie Info <Link to="../edit">Edit</Link>
+        </h1>
+        {preview}
+      </div>
+    );
+  }
 }
 
-class ActorEdit extends React.Component {
-  render() { return ( <h1>Actor Edit</h1> ); }
+class ActorEdit extends ActorPreview {
+  render() {
+    return <h1>Actor Edit</h1>;
+  }
 }
 
-class MovieEdit extends React.Component {
-  render() { return ( <h1>Movie Edit</h1> ); }
+class MovieEdit extends MoviePreview {
+  render() {
+    return <h1>Movie Edit</h1>;
+  }
 }
 
 /**
