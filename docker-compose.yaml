@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: hubhaus
+      MYSQL_DATABASE: hubhaus
+  
+  web:
+    image: node:12-alpine
+    depends_on: [ 'db']
+    volumes: 
+    - .:/home/node/web
+    working_dir: /home/node/web
+    command: npm start
+    ports:
+    - '8080:8080'
+    environment:
+      PORT: 8080
+
+volumes:
+  node_modules:  
