@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { Cast, Movie } from '../db';
+import { Cast, Movie, Actor } from '../db';
 
 const router = Router();
 

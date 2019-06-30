@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { Actor } from '../db';
+import { Actor, Movie, Cast } from '../db';
 
 const router = express.Router();
 
