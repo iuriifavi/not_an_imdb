@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import { json } from 'body-parser';
+import indexRouter from './routes';
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -9,6 +10,7 @@ const port = process.env.PORT || 8080;
 app.use(cors());
 app.use(helmet());
 app.use(json());
+app.use(indexRouter);
 
 //start Express server on defined port
 app.listen(port);
