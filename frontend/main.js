@@ -25,7 +25,6 @@ function Actors() {
       <h3>Actors</h3>
       <Route
         path="/actors/"
-        exact
         render={props => <PageView {...props} {...baseProps} />}
       />
     </div>
@@ -45,7 +44,6 @@ function Movies() {
       <h3>Movies</h3>
       <Route
         path="/movies/"
-        exact
         render={props => <PageView {...props} {...baseProps} />}
       />
     </div>
@@ -78,7 +76,7 @@ function MovieRow({ data }) {
   return (
     <tr>
       <td>
-        <Link to={`/movies/info/${data.id}`}>{data.title}</Link>
+        <Link to={`/movies/${data.id}/info/`}>{data.title}</Link>
       </td>
       <td>{new Date(data.release_date).toDateString()}</td>
     </tr>
@@ -89,10 +87,10 @@ function ActorRow({ data }) {
   return (
     <tr>
       <td>
-        <Link to={`/actors/info/${data.id}`}>{data.first_name}</Link>
+        <Link to={`/actors/${data.id}/info/`}>{data.first_name}</Link>
       </td>
       <td>
-        <Link to={`/actors/info/${data.id}`}>{data.last_name}</Link>
+        <Link to={`/actors/${data.id}/info/`}>{data.last_name}</Link>
       </td>
     </tr>
   );
@@ -104,41 +102,34 @@ class PageView extends React.Component {
   constructor(props) {
     super(props);
 
-    const { match } = props;
-
     this.state = {
       items: [],
       hasNext: false,
-      page: (match && match.params && match.params.page) || 0
+      page: 0
     };
   }
 
-  componentDidMount() {
+  fetchData(props) {
     const self = this;
+    const { match } = props || this.props;
+    const page = (match && match.params && match.params.page) || 0;
 
     fetch(
-      `${this.props.fetchUrl}?offset=${this.state.page *
-        ItemsPerPage}&limit=${ItemsPerPage}`
+      `${this.props.fetchUrl}?offset=${page * ItemsPerPage}&limit=${ItemsPerPage}`
     )
       .then(responce => responce.json())
       .then(items => {
         const hasNext = items.length === ItemsPerPage;
-        self.setState({ items, hasNext });
+        self.setState({ items, hasNext, page });
       });
   }
 
-  componentWillReceiveProps(props) {
-    const self = this;
+  componentDidMount() {
+    this.fetchData();
+  }
 
-    fetch(
-      `${this.props.fetchUrl}?offset=${(this.state.page - 1) *
-        ItemsPerPage}&limit=${ItemsPerPage}`
-    )
-      .then(responce => responce.json())
-      .then(items => {
-        const hasNext = items.length === ItemsPerPage;
-        self.setState({ items, hasNext, page: this.state.page - 1 });
-      });
+  componentWillReceiveProps(props) {
+    this.fetchData(props)
   }
 
   render() {
