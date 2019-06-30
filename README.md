@@ -3,9 +3,9 @@
 Stack: Express, Sequilize => MySSQL, Babel, React, Docker.
 
 TODO:
-Actors
-Movies
-Cast
+<!-- Actors -->
+<!-- Movies -->
+<!-- Cast -->
 JOINs
 Routes CRUD actors
 Routes CRUD movies
