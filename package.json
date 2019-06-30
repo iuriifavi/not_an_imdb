@@ -1,0 +1,30 @@
+{
+  "name": "not_an_imdb",
+  "version": "0.0.1",
+  "description": "Simple CRUD app to handle Movies and Actors.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iuriifavi/not_an_imdb.git"
+  },
+  "author": "Iurii Favi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iuriifavi/not_an_imdb/issues"
+  },
+  "homepage": "https://github.com/iuriifavi/not_an_imdb#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "helmet": "^3.18.0",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
