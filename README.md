@@ -21,14 +21,14 @@ Start-Up:
 * docker-compose up
 
 API:
-* localhost:8080/api/actor *[GET,POST]* list of actors
-* localhost:8080/api/actor/:id *[PUT,DELETE]* there is restriction for id in body
-* localhost:8080/api/actor/:id/info *[GET]* fully propagated info about actor and his movies
-* localhost:8080/api/movie *[GET,POST]* list of actors
-* localhost:8080/api/movie/:id *[PUT,DELETE]* there is restriction for id in body
-* localhost:8080/api/movie/:id/info *[GET]* fully propagated info about movie and cast members
-* localhost:8080/api/movie/:id/cast *[GET,POST]* list of pars {movieId, actorId}
-* localhost:8080/api/movie/:id/cast/:actorId *[DELETE]* there is restriction for id in body
+* localhost:8080/api/actor **[GET,POST]** list of actors
+* localhost:8080/api/actor/:id **[PUT,DELETE]** there is restriction for id in body
+* localhost:8080/api/actor/:id/info **[GET]** fully propagated info about actor and his movies
+* localhost:8080/api/movie **[GET,POST]** list of actors
+* localhost:8080/api/movie/:id **[PUT,DELETE]** there is restriction for id in body
+* localhost:8080/api/movie/:id/info **[GET]** fully propagated info about movie and cast members
+* localhost:8080/api/movie/:id/cast **[GET,POST]** list of pars {movieId, actorId}
+* localhost:8080/api/movie/:id/cast/:actorId **[DELETE]** there is restriction for id in body
 
 TODO:
 - Actors
