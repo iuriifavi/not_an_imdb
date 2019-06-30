@@ -1,0 +1,6 @@
+{
+    "presets": [["latest-node", { "target": "current" }]],
+    "plugins": [
+        ["@babel/transform-runtime"]
+    ]
+}

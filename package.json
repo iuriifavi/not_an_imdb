@@ -2,9 +2,11 @@
   "name": "not_an_imdb",
   "version": "0.0.1",
   "description": "Simple CRUD app to handle Movies and Actors.",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "PORT=8080 nodemon",
+    "dev": "PORT=8080 babel-node ./src/server.js",
+    "build": "babel src --out-dir dist",
+    "serve": "node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +27,15 @@
     "sequelize": "^5.9.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/register": "^7.4.4",
+    "@babel/runtime": "^7.4.5",
+    "babel-loader": "^8.0.6",
+    "babel-preset-latest-node": "^3.2.1",
     "nodemon": "^1.19.1"
   }
 }

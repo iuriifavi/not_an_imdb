@@ -1,6 +1,6 @@
 # not_an_imdb
 
-Stack: Express, Sequilize => MySSQL, React, Docker.
+Stack: Express, Sequilize => MySSQL, Babel, React, Docker.
 
 TODO:
 Actors
@@ -9,5 +9,3 @@ Cast
 JOINs
 Routes CRUD actors
 Routes CRUD movies
-
-TL: 4:45min
