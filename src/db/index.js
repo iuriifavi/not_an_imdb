@@ -45,22 +45,25 @@ Movie.hasMany(Cast);
 Cast.belongsTo(Actor);
 Cast.belongsTo(Movie);
 
-sequelize
-.authenticate()
-.then(() => {
-    console.log("Connection has been established successfully.");
-})
-.catch(err => {
-    console.error("Unable to connect to the database:", err);
-});
 
-sequelize
-.sync()
-.then(() => {
-    console.log("Database schemas synched");
-})
-.catch(err => {
-    console.error("Database schemas didn't match\n", err);
-});
+function connectAndSync() {
+    sequelize
+    .authenticate()
+    .then(() => {
+        console.log("Connection has been established successfully.");
+    })
+    .catch(err => {
+        console.error("Unable to connect to the database:", err);
+    });
+    
+    sequelize
+    .sync()
+    .then(() => {
+        console.log("Database schemas synched");
+    })
+    .catch(err => {
+        console.error("Database schemas didn't match\n", err);
+    });
+}
 
-export { Actor, Movie, Cast };
+export { Actor, Movie, Cast, connectAndSync };

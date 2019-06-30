@@ -3,6 +3,9 @@ import helmet from 'helmet';
 import cors from 'cors';
 import { json } from 'body-parser';
 import indexRouter from './routes';
+import { connectAndSync } from './db';
+
+connectAndSync();
 
 const app = express();
 const port = process.env.PORT || 8080;
